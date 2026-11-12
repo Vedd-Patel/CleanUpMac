@@ -271,3 +271,60 @@ row, and give it a few minutes.
 
 **Port already in use.** Tidy picks the next free port automatically. Use
 `--port` to choose one yourself.
+
+---
+
+## Contributing
+
+Every Mac fills up differently. The catalog only knows the places I have run
+into myself, so if Tidy missed something on your machine, please add it.
+
+Good things to contribute:
+
+- **A folder Tidy doesn't know about.** It showed up under *Large folders*
+  as "not in the catalog", and you found out what it is and whether it is
+  safe to clear.
+- **An app or tool that is missing.** Unity, JetBrains IDEs, Flutter, Conda,
+  Bun, Zoom, Telegram, Adobe apps, game launchers, and so on.
+- **A wrong description or label.** Something marked **Safe** that actually
+  lost you data, or something marked **Check first** that is really just a
+  cache.
+- **A path that moved.** Apps change where they store things between
+  versions, especially after macOS updates.
+- **Bugs.** A scan that hangs, a size that is clearly wrong, a delete that
+  fails, or the page breaking on some screen size.
+
+### Adding a new item
+
+1. Fork the repo and create a branch.
+2. Add an entry to `tidy/catalog.py`, following the format in
+   [Adding your own items](#adding-your-own-items).
+3. Fill in `what`, `used_by` and `after` honestly. If you are not sure what
+   happens after deleting it, use `level="careful"`, or `level="info"` with
+   instructions in `how`.
+4. Prefer the tool's own clean command (`("run", [...])`) over deleting files
+   when one exists, for example `docker builder prune` or `go clean -cache`.
+5. Run `./tidy.sh`, check the new row shows the right size and details, and
+   try deleting it on your own machine.
+6. Open a pull request saying what the folder is, how you confirmed it is safe
+   to clear, and which macOS and app versions you tested on.
+
+### Reporting something
+
+If you don't want to write code, open an issue instead. Include:
+
+- the path, and its size if you know it,
+- which app or tool creates it,
+- what happened, or what you expected to happen,
+- your macOS version (from  > About This Mac).
+
+Please don't paste file listings from folders like `~/Library/Messages` or
+your mail. Paths and sizes are enough.
+
+### Ground rules
+
+- Tidy has no dependencies and should stay that way: Python standard library
+  and plain HTML, CSS and JavaScript only.
+- Anything that deletes goes through `tidy/actions.py`. Don't loosen the path
+  checks there without explaining why in the pull request.
+- Nothing should ever need `sudo`.
