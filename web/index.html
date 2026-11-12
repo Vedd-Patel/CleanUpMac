@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="tidy-token" content="__TOKEN__">
+<title>Tidy</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Tidy</h1>
+      <span class="sub">what is filling your Mac, and what can go</span>
+    </div>
+    <button id="rescan" class="btn">Rescan</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="disk">
+    <div class="disk-line">
+      <span><strong id="free">–</strong> free of <span id="total">–</span></span>
+      <span id="scan-status" class="muted">Starting scan…</span>
+    </div>
+    <div class="bar"><div id="bar-used"></div><div id="bar-pick"></div></div>
+    <div class="legend">
+      <span><i class="dot used"></i>Used</span>
+      <span><i class="dot pick"></i>Selected to delete</span>
+      <span><i class="dot free"></i>Free</span>
+    </div>
+  </section>
+
+  <nav class="filters" id="filters">
+    <button data-f="all" class="on">Everything</button>
+    <button data-f="safe">Safe to delete</button>
+    <button data-f="careful">Check first</button>
+    <button data-f="info">Look only</button>
+    <label class="hide-small"><input type="checkbox" id="hide-small" checked> Hide items under 10 MB</label>
+  </nav>
+
+  <div id="list"></div>
+
+  <p class="footnote">
+    Sizes come from <code>du</code> and Docker's own numbers, so they can differ a little from Finder.
+    Nothing is deleted until you confirm it.
+  </p>
+</main>
+
+<div class="tray" id="tray" hidden>
+  <div class="wrap">
+    <span><strong id="pick-count">0</strong> selected · <strong id="pick-size">0 B</strong></span>
+    <span class="tray-btns">
+      <button class="btn" id="clear-pick">Clear</button>
+      <button class="btn danger" id="delete">Delete…</button>
+    </span>
+  </div>
+</div>
+
+<div class="modal" id="confirm" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <h2 id="confirm-title">Delete these?</h2>
+    <p class="muted" id="confirm-lead"></p>
+    <ul id="confirm-list"></ul>
+    <div id="confirm-warn" class="warn" hidden>
+      <p><strong>Some of these hold real data.</strong> They are deleted for good, not moved to the Trash.</p>
+      <label><input type="checkbox" id="confirm-ok"> I understand, delete them anyway</label>
+    </div>
+    <div id="confirm-quit" class="note" hidden></div>
+    <div class="sheet-btns">
+      <button class="btn" id="confirm-no">Cancel</button>
+      <button class="btn danger" id="confirm-yes">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="working" hidden>
+  <div class="sheet">
+    <h2 id="working-title">Deleting…</h2>
+    <ul id="working-list"></ul>
+    <div class="sheet-btns"><button class="btn" id="working-done" hidden>Done</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
